@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samriddha Jung Pande | Portfolio</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body { 
+            background-color: #050505; 
+            color: #ffffff; 
+            min-height: 100vh; 
+            overflow: hidden; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        /* Top Left Global Back Button */
+        #global-back {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+            display: none; /* Hidden on landing page */
+        }
+        #global-back:hover { background: #4cc9f0; color: black; border-color: #4cc9f0; }
+
+        /* Moving Background Images */
+        .bg-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 200%;
+            z-index: -1;
+            opacity: 0.12;
+            animation: moveBg 60s linear infinite;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bg-container img {
+            width: 100%;
+            height: 25%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(120%);
+        }
+
+        @keyframes moveBg {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+
+        .glow { position: fixed; width: 600px; height: 600px; background: #3a0ca3; border-radius: 50%; filter: blur(150px); opacity: 0.2; z-index: 0; pointer-events: none; }
+
+        .section { position: absolute; text-align: center; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); width: 100%; max-width: 900px; padding: 20px; z-index: 10; }
+        .hidden { opacity: 0; visibility: hidden; transform: translateY(40px); }
+
+        h1 { font-size: 3.5rem; font-weight: 200; letter-spacing: 8px; text-transform: uppercase; }
+        .subtitle { color: #4cc9f0; font-size: 0.9rem; letter-spacing: 4px; margin-bottom: 30px; text-transform: uppercase;}
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .card-item { 
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            padding: 25px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            transition: 0.4s; 
+            backdrop-filter: blur(8px);
+        }
+        .card-item:hover { background: rgba(76, 201, 240, 0.1); border-color: #4cc9f0; transform: translateY(-10px); }
+        .card-item h3 { margin-bottom: 8px; font-size: 1.1rem; color: #4cc9f0; }
+
+        .btn-link { 
+            display: inline-block; margin: 10px; padding: 12px 24px; 
+            border: 1px solid #4cc9f0; color: #4cc9f0; 
+            text-decoration: none; border-radius: 5px; font-size: 0.8rem; transition: 0.3s;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-link:hover { background: #4cc9f0; color: #000; box-shadow: 0 0 20px rgba(76, 201, 240, 0.3); }
+    </style>
+</head>
+<body>
+
+    <button id="global-back" onclick="goBack()">← BACK</button>
+
+    <div class="bg-container">
+        <img src="leadership.jpg" alt="Leadership">
+        <img src="impact.jpg" alt="Impact">
+        <img src="academia.jpg" alt="Academia">
+        <img src="arts.jpg" alt="Arts">
+    </div>
+
+    <div class="glow" style="top: -10%; left: -10%;"></div>
+
+    <div id="landing" class="section">
+        <h1>Samriddha</h1>
+        <p class="subtitle" id="adj">Dedicated</p>
+        <button class="btn-link" style="border-radius: 50px; padding: 15px 40px;" onclick="show('home')">ENTER EXPERIENCE</button>
+    </div>
+
+    <div id="home" class="section hidden">
+        <h2 class="subtitle">St. Xavier's Maitighar | AS Level</h2>
+        <div class="grid">
+            <div class="card-item" onclick="show('leadership')"><h3>Leadership</h3><p>Head Boy & MUN Awards</p></div>
+            <div class="card-item" onclick="show('impact')"><h3>Social Impact</h3><p>Orchid Garden & PIE</p></div>
+            <div class="card-item" onclick="show('academia')"><h3>Academia</h3><p>Research & CS Logic</p></div>
+            <div class="card-item" onclick="show('arts')"><h3>Creative</h3><p>Music & Performance</p></div>
+        </div>
+        <div style="margin-top: 30px;">
+            <a href="https://youtube.com/@smjp._s?si=VaJBhQHF_vMRwP22" target="_blank" class="btn-link">YouTube Channel</a>
+            <a href="#" class="btn-link">Flashcard App (Coming Soon)</a>
+        </div>
+    </div>
+
+    <div id="leadership" class="section hidden">
+        <h3>Leadership & Debate</h3>
+        <p style="margin: 20px 0; color: #ccc; line-height: 1.8;">
+            Former Head Boy at Millsberry School.<br>
+            7 MUN Awards (6x Outstanding Delegate).<br>
+            2x Debate Champion & 2x Runner-up.
+        </p>
+    </div>
+
+    <div id="impact" class="section hidden">
+        <h3>Social Impact</h3>
+        <p style="margin: 20px 0; color: #ccc; line-height: 1.8;">
+            <strong>Orchid Garden Nepal:</strong> 80 Hours of volunteering.<br>
+            <strong>PIE Initiative:</strong> 90 Hours teaching in Thapathali.<br>
+            <strong>RIC Sindhupalchowk:</strong> Head Patrolling Officer & Community Workshops.
+        </p>
+    </div>
+
+    <div id="academia" class="section hidden">
+        <h3>Academia & Research</h3>
+        <p style="margin: 20px 0; color: #ccc; line-height: 1.8;">
+            Studying Physics, Chemistry, Maths, CS, and EGP at St. Xavier's.<br>
+            Technical Focus: Python Basics, Pseudocode, and logic-based problem solving.
+        </p>
+        <a href="research-paper.pdf" target="_blank" class="btn-link">Download Research Paper</a>
+    </div>
+
+    <div id="arts" class="section hidden">
+        <h3>Music & Creative</h3>
+        <p style="margin: 20px 0; color: #ccc;">Exploring the "Euphoric" side of life through vocals and instruments.</p>
+        <a href="https://youtube.com/@smjp._s?si=VaJBhQHF_vMRwP22" target="_blank" class="btn-link">Listen on YouTube</a>
+    </div>
+
+    <script>
+        // Adjective cycling
+        const adjs = ["Dedicated", "Mature", "Euphoric"];
+        let i = 0;
+        setInterval(() => { 
+            const el = document.getElementById('adj');
+            if(el) {
+                el.style.opacity = 0;
+                setTimeout(() => {
+                    el.textContent = adjs[i];
+                    el.style.opacity = 1;
+                    i = (i + 1) % adjs.length;
+                }, 500);
+            }
+        }, 3000);
+
+        // Navigation History Brain
+        let historyStack = [];
+        let currentId = 'landing';
+
+        function show(id) {
+            historyStack.push(currentId);
+            currentId = id;
+            
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+
+            // Show back button only if not on landing
+            document.getElementById('global-back').style.display = (id === 'landing') ? 'none' : 'block';
+        }
+
+        function goBack() {
+            if (historyStack.length > 0) {
+                const previousId = historyStack.pop();
+                currentId = previousId;
+                
+                document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+                document.getElementById(previousId).classList.remove('hidden');
+                
+                document.getElementById('global-back').style.display = (previousId === 'landing') ? 'none' : 'block';
+            }
+        }
+    </script>
+</body>
+</html>
