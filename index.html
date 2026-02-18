@@ -261,4 +261,19 @@
 
         function goBack() {
             if (historyStack.length > 0) {
-                const prevId = historyStack
+                const prevId = historyStack.pop();
+                const currentSection = document.getElementById(currentId);
+                const prevSection = document.getElementById(prevId);
+                
+                currentSection.classList.add('hidden');
+                
+                setTimeout(() => {
+                    prevSection.classList.remove('hidden');
+                    currentId = prevId;
+                    document.getElementById('global-back').style.display = (prevId === 'landing') ? 'none' : 'block';
+                }, 300);
+            }
+        }
+    </script>
+</body>
+</html>
