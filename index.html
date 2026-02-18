@@ -1,279 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Samriddha Jung Pande | Portfolio</title>
-    <style>
-        :root {
-            --accent: #4cc9f0;
-            --bg-dark: #050505;
-            --glass: rgba(255, 255, 255, 0.03);
-            --transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+<style>
+    /* ... (rest of your CSS) ... */
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+    .section { 
+        position: absolute; 
+        text-align: center; 
+        width: 100%; 
+        max-width: 900px; 
+        padding: 40px; 
+        z-index: 10; 
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        opacity: 1;
+        transform: translateY(0);
+        /* Ensure the section is interactive when visible */
+        pointer-events: all; 
+        display: block; 
+    }
+
+    .hidden { 
+        opacity: 0 !important; 
+        transform: translateY(30px) !important; 
+        /* This prevents the hidden section from blocking clicks to the landing page */
+        pointer-events: none !important; 
+    }
+
+    /* Ensure landing is always on top when active */
+    #landing { z-index: 20; }
+</style>
+
+<script>
+    // Navigation History
+    let historyStack = [];
+    let currentId = 'landing';
+
+    function show(id) {
+        const currentSection = document.getElementById(currentId);
+        const nextSection = document.getElementById(id);
+        const backBtn = document.getElementById('global-back');
+
+        // 1. Fade out current section
+        currentSection.classList.add('hidden');
         
-        body { 
-            background-color: var(--bg-dark); 
-            color: #ffffff; 
-            min-height: 100vh; 
-            overflow: hidden; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-        }
-
-        /* Interactive Mouse Glow */
-        #cursor-glow {
-            position: fixed;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(76, 201, 240, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease-out;
-        }
-
-        /* Top Left Global Back Button */
-        #global-back {
-            position: fixed;
-            top: 30px;
-            left: 30px;
-            z-index: 100;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            backdrop-filter: blur(10px);
-            transition: 0.3s;
-            display: none; 
-        }
-        #global-back:hover { background: var(--accent); color: black; border-color: var(--accent); }
-
-        /* Moving Background Images */
-        .bg-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 200%;
-            z-index: -1;
-            opacity: 0.08;
-            animation: moveBg 80s linear infinite;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .bg-container img {
-            width: 100%;
-            height: 25%;
-            object-fit: cover;
-            filter: grayscale(100%) brightness(0.8);
-        }
-
-        @keyframes moveBg {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-50%); }
-        }
-
-        /* Sections Strategy */
-        .section { 
-            position: absolute; 
-            text-align: center; 
-            width: 100%; 
-            max-width: 900px; 
-            padding: 40px; 
-            z-index: 10; 
-            transition: var(--transition);
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .hidden { 
-            opacity: 0 !important; 
-            visibility: hidden; 
-            transform: translateY(30px) !important; 
-            pointer-events: none;
-        }
-
-        h1 { font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 200; letter-spacing: 12px; text-transform: uppercase; margin-bottom: 10px; }
+        // 2. Add to history
+        historyStack.push(currentId);
         
-        #adj { 
-            color: var(--accent); 
-            font-size: 1rem; 
-            letter-spacing: 5px; 
-            text-transform: uppercase;
-            transition: opacity 0.5s ease-in-out;
+        // 3. Show next section after a tiny delay to ensure smooth transition
+        setTimeout(() => {
+            nextSection.classList.remove('hidden');
+            currentId = id;
+            
+            // Toggle Back Button
+            backBtn.style.display = (id === 'landing') ? 'none' : 'block';
+        }, 50); 
+    }
+
+    function goBack() {
+        if (historyStack.length > 0) {
+            const prevId = historyStack.pop();
+            const currentSection = document.getElementById(currentId);
+            const prevSection = document.getElementById(prevId);
+            
+            currentSection.classList.add('hidden');
+            
+            setTimeout(() => {
+                prevSection.classList.remove('hidden');
+                currentId = prevId;
+                document.getElementById('global-back').style.display = (prevId === 'landing') ? 'none' : 'block';
+            }, 50);
         }
+    }
 
-        .subtitle { color: #888; font-size: 0.8rem; letter-spacing: 3px; margin-bottom: 40px; text-transform: uppercase; }
+    // Mouse Glow Logic
+    const glow = document.getElementById('cursor-glow');
+    window.addEventListener('mousemove', (e) => {
+        glow.style.left = e.clientX + 'px';
+        glow.style.top = e.clientY + 'px';
+    });
 
-        /* Grid System */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
-        
-        .card-item { 
-            background: var(--glass); 
-            border: 1px solid rgba(255,255,255,0.08); 
-            padding: 30px; 
-            border-radius: 15px; 
-            cursor: pointer; 
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            backdrop-filter: blur(12px);
-        }
-        
-        .card-item:hover { 
-            background: rgba(76, 201, 240, 0.08); 
-            border-color: var(--accent); 
-            transform: translateY(-8px) scale(1.02); 
-        }
-
-        .card-item h3 { margin-bottom: 10px; font-size: 1.1rem; color: var(--accent); font-weight: 400; letter-spacing: 1px; }
-        .card-item p { font-size: 0.85rem; color: #aaa; }
-
-        .btn-link { 
-            display: inline-block; margin: 10px; padding: 14px 28px; 
-            border: 1px solid var(--accent); color: var(--accent); 
-            text-decoration: none; border-radius: 4px; font-size: 0.75rem; 
-            transition: 0.3s; text-transform: uppercase; letter-spacing: 2px;
-            background: transparent; cursor: pointer;
-        }
-        .btn-link:hover { background: var(--accent); color: #000; box-shadow: 0 0 25px rgba(76, 201, 240, 0.4); }
-
-        .content-text { color: #ccc; line-height: 1.8; max-width: 600px; margin: 0 auto 30px auto; font-size: 0.95rem; }
-        strong { color: var(--accent); font-weight: 500; }
-    </style>
-</head>
-<body>
-
-    <div id="cursor-glow"></div>
-    <button id="global-back" onclick="goBack()">← BACK</button>
-
-    <div class="bg-container">
-        <img src="leadership.jpg" alt="Leadership">
-        <img src="impact.jpg" alt="Impact">
-        <img src="academia.jpg" alt="Academia">
-        <img src="arts.jpg" alt="Arts">
-    </div>
-
-    <div id="landing" class="section">
-        <h1>Samriddha</h1>
-        <p id="adj">Dedicated</p>
-        <div style="margin-top: 50px;">
-            <button class="btn-link" style="border-radius: 50px; padding: 18px 50px;" onclick="show('home')">Explore Experience</button>
-        </div>
-    </div>
-
-    <div id="home" class="section hidden">
-        <h2 class="subtitle">St. Xavier's Maitighar | AS Level</h2>
-        <div class="grid">
-            <div class="card-item" onclick="show('leadership')"><h3>Leadership</h3><p>Head Boy & MUN Awards</p></div>
-            <div class="card-item" onclick="show('impact')"><h3>Social Impact</h3><p>Orchid Garden & PIE</p></div>
-            <div class="card-item" onclick="show('academia')"><h3>Academia</h3><p>Research & CS Logic</p></div>
-            <div class="card-item" onclick="show('arts')"><h3>Creative</h3><p>Music & Performance</p></div>
-        </div>
-        <div style="margin-top: 40px;">
-            <a href="https://youtube.com/@smjp._s" target="_blank" class="btn-link">YouTube</a>
-            <button class="btn-link" style="opacity: 0.6; cursor: not-allowed;">Flashcards (Soon)</button>
-        </div>
-    </div>
-
-    <div id="leadership" class="section hidden">
-        <h2 class="subtitle">Leadership & Debate</h2>
-        <p class="content-text">
-            Former <strong>Head Boy</strong> at Millsberry School.<br>
-            Achieved <strong>7 MUN Awards</strong> including 6x Outstanding Delegate.<br>
-            Recognized as 2x Debate Champion & 2x Runner-up.
-        </p>
-    </div>
-
-    <div id="impact" class="section hidden">
-        <h2 class="subtitle">Social Impact</h2>
-        <p class="content-text">
-            <strong>Orchid Garden Nepal:</strong> Dedicated 80 hours to early childhood support.<br>
-            <strong>PIE Initiative:</strong> 90 hours of community teaching in Thapathali.<br>
-            <strong>RIC Sindhupalchowk:</strong> Head Patrolling Officer & Workshop lead.
-        </p>
-    </div>
-
-    <div id="academia" class="section hidden">
-        <h2 class="subtitle">Academia & Research</h2>
-        <p class="content-text">
-            Pursuing Physics, Chemistry, Mathematics, and Computer Science.<br>
-            Focusing on <strong>Logic-based problem solving</strong> and Python development.
-        </p>
-        <a href="research-paper.pdf" target="_blank" class="btn-link">Read Research Paper</a>
-    </div>
-
-    <div id="arts" class="section hidden">
-        <h2 class="subtitle">Music & Creative</h2>
-        <p class="content-text">Exploring the "Euphoric" side of life through vocal performance and instrumental exploration.</p>
-        <a href="https://youtube.com/@smjp._s" target="_blank" class="btn-link">Listen on YouTube</a>
-    </div>
-
-    <script>
-        // 1. Mouse Glow Logic
-        const glow = document.getElementById('cursor-glow');
-        window.addEventListener('mousemove', (e) => {
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
-        });
-
-        // 2. Smooth Adjective Cycling
-        const adjs = ["Dedicated", "Mature", "Euphoric"];
-        let adjIndex = 0;
-        const adjEl = document.getElementById('adj');
-
-        setInterval(() => { 
+    // Adjective Cycling
+    const adjs = ["Dedicated", "Mature", "Euphoric"];
+    let adjIndex = 0;
+    const adjEl = document.getElementById('adj');
+    setInterval(() => { 
+        if(adjEl) {
             adjEl.style.opacity = 0;
             setTimeout(() => {
                 adjIndex = (adjIndex + 1) % adjs.length;
                 adjEl.textContent = adjs[adjIndex];
                 adjEl.style.opacity = 1;
             }, 500);
-        }, 3500);
-
-        // 3. Optimized Navigation History
-        let historyStack = [];
-        let currentId = 'landing';
-
-        function show(id) {
-            const currentSection = document.getElementById(currentId);
-            const nextSection = document.getElementById(id);
-            const backBtn = document.getElementById('global-back');
-
-            // Save history
-            historyStack.push(currentId);
-            
-            // Transition out
-            currentSection.classList.add('hidden');
-            
-            setTimeout(() => {
-                nextSection.classList.remove('hidden');
-                currentId = id;
-                backBtn.style.display = (id === 'landing') ? 'none' : 'block';
-            }, 300); // Wait for fade-out before showing next
         }
-
-        function goBack() {
-            if (historyStack.length > 0) {
-                const prevId = historyStack.pop();
-                const currentSection = document.getElementById(currentId);
-                const prevSection = document.getElementById(prevId);
-                
-                currentSection.classList.add('hidden');
-                
-                setTimeout(() => {
-                    prevSection.classList.remove('hidden');
-                    currentId = prevId;
-                    document.getElementById('global-back').style.display = (prevId === 'landing') ? 'none' : 'block';
-                }, 300);
-            }
-        }
-    </script>
-</body>
-</html>
+    }, 3500);
+</script>
