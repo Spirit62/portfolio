@@ -1,93 +1,66 @@
-<style>
-    /* ... (rest of your CSS) ... */
+<div id="home" class="section hidden">
+        <h2 class="subtitle">St. Xavier's College | AS Level</h2>
+        <p style="font-size: 0.9rem; color: #888; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+            A results-driven student leader with a 170+ hour track record in social initiatives and a background in competitive diplomacy. Seeking to leverage analytical logic and interpersonal communication to drive organizational growth.
+        </p>
+        <div class="grid">
+            <div class="card-item" onclick="show('leadership')">
+                <h3>Executive Leadership</h3>
+                <p>Strategic oversight, MUN diplomacy, and inter-scholastic debate championship.</p>
+            </div>
+            <div class="card-item" onclick="show('impact')">
+                <h3>Corporate Social Responsibility</h3>
+                <p>Humanitarian service at Orchid Garden Nepal and the PIE educational initiative.</p>
+            </div>
+            <div class="card-item" onclick="show('academia')">
+                <h3>Academic Research</h3>
+                <p>Computer Science logic, advanced mathematics, and formal academic research.</p>
+            </div>
+            <div class="card-item" onclick="show('arts')">
+                <h3>Cultural Engagement</h3>
+                <p>Vocal performance and music-based outreach in rural development sectors.</p>
+            </div>
+        </div>
+        <div style="margin-top: 30px;">
+            <a href="https://youtube.com/@smjp._s?si=VaJBhQHF_vMRwP22" target="_blank" class="btn-link">Portfolio: Music</a>
+            <a href="#" class="btn-link">Project: Logic Flashcards</a>
+        </div>
+    </div>
 
-    .section { 
-        position: absolute; 
-        text-align: center; 
-        width: 100%; 
-        max-width: 900px; 
-        padding: 40px; 
-        z-index: 10; 
-        transition: opacity 0.5s ease, transform 0.5s ease;
-        opacity: 1;
-        transform: translateY(0);
-        /* Ensure the section is interactive when visible */
-        pointer-events: all; 
-        display: block; 
-    }
+    <div id="leadership" class="section hidden">
+        <h3 style="color: #4cc9f0; margin-bottom: 20px;">Diplomacy & Executive Leadership</h3>
+        <div class="card-item" style="cursor: default; text-align: left; line-height: 1.8;">
+            <p><strong>• Head Boy | Millsberry School (Grade 10):</strong> Appointed to lead the student body; managed peer-mediation, school-wide events, and acted as a liaison between administration and 500+ students.</p>
+            <p><strong>• Model United Nations (MUN):</strong> Awarded 6x <em>Outstanding Delegate</em> and 1x <em>Special Mention</em>. Demonstrated expertise in geopolitical analysis, resolution drafting, and multilateral negotiation.</p>
+            <p><strong>• Competitive Debate:</strong> 2x Tournament Winner and 2x Runner-up. Specialized in spontaneous argumentation and rhetorical strategy.</p>
+            <p><strong>• Class Representative | St. Xavier's College:</strong> Currently facilitating communication within the AS Level cohort, ensuring academic and logistical coordination.</p>
+        </div>
+    </div>
 
-    .hidden { 
-        opacity: 0 !important; 
-        transform: translateY(30px) !important; 
-        /* This prevents the hidden section from blocking clicks to the landing page */
-        pointer-events: none !important; 
-    }
+    <div id="impact" class="section hidden">
+        <h3 style="color: #4cc9f0; margin-bottom: 20px;">Social Impact & Philanthropy</h3>
+        <div class="card-item" style="cursor: default; text-align: left; line-height: 1.8;">
+            <p><strong>• Partnership in Education (PIE) - 90 Hours:</strong> Spearheaded a student-led initiative in Thapathali, focusing on providing supplemental education in core subjects for marginalized youth.</p>
+            <p><strong>• Orchid Garden Nepal - 80 Hours:</strong> Facilitated early childhood development programs for the children of day laborers; assisted in nutritional logistics and fundamental literacy training.</p>
+            <p><strong>• Rural Immersion Camp (RIC) Sindhupalchowk:</strong> Served as <em>Head Patrolling Officer</em>. Orchestrated workshops on hygiene and arts; contributed to community infrastructure by restoring local educational facilities.</p>
+        </div>
+    </div>
 
-    /* Ensure landing is always on top when active */
-    #landing { z-index: 20; }
-</style>
+    <div id="academia" class="section hidden">
+        <h3 style="color: #4cc9f0; margin-bottom: 20px;">Academic Excellence & Technology</h3>
+        <div class="card-item" style="cursor: default; text-align: left; line-height: 1.8;">
+            <p><strong>• Current Curriculum:</strong> Cambridge Assessment International Education (AS Level) in Computer Science, Mathematics, Physics, Chemistry, and English General Paper.</p>
+            <p><strong>• Independent Research:</strong> Conducted formal academic research (Title Pending); focused on critical analysis and data synthesis within the Nepalese context.</p>
+            <p><strong>• Technical Competencies:</strong> Logic Architecture, Pseudocode, Python programming fundamentals, and foundational C for structured systems development.</p>
+        </div>
+        <a href="research-paper.pdf" target="_blank" class="btn-link" style="margin-top: 20px;">View Formal Research Paper</a>
+    </div>
 
-<script>
-    // Navigation History
-    let historyStack = [];
-    let currentId = 'landing';
-
-    function show(id) {
-        const currentSection = document.getElementById(currentId);
-        const nextSection = document.getElementById(id);
-        const backBtn = document.getElementById('global-back');
-
-        // 1. Fade out current section
-        currentSection.classList.add('hidden');
-        
-        // 2. Add to history
-        historyStack.push(currentId);
-        
-        // 3. Show next section after a tiny delay to ensure smooth transition
-        setTimeout(() => {
-            nextSection.classList.remove('hidden');
-            currentId = id;
-            
-            // Toggle Back Button
-            backBtn.style.display = (id === 'landing') ? 'none' : 'block';
-        }, 50); 
-    }
-
-    function goBack() {
-        if (historyStack.length > 0) {
-            const prevId = historyStack.pop();
-            const currentSection = document.getElementById(currentId);
-            const prevSection = document.getElementById(prevId);
-            
-            currentSection.classList.add('hidden');
-            
-            setTimeout(() => {
-                prevSection.classList.remove('hidden');
-                currentId = prevId;
-                document.getElementById('global-back').style.display = (prevId === 'landing') ? 'none' : 'block';
-            }, 50);
-        }
-    }
-
-    // Mouse Glow Logic
-    const glow = document.getElementById('cursor-glow');
-    window.addEventListener('mousemove', (e) => {
-        glow.style.left = e.clientX + 'px';
-        glow.style.top = e.clientY + 'px';
-    });
-
-    // Adjective Cycling
-    const adjs = ["Dedicated", "Mature", "Euphoric"];
-    let adjIndex = 0;
-    const adjEl = document.getElementById('adj');
-    setInterval(() => { 
-        if(adjEl) {
-            adjEl.style.opacity = 0;
-            setTimeout(() => {
-                adjIndex = (adjIndex + 1) % adjs.length;
-                adjEl.textContent = adjs[adjIndex];
-                adjEl.style.opacity = 1;
-            }, 500);
-        }
-    }, 3500);
-</script>
+    <div id="arts" class="section hidden">
+        <h3 style="color: #4cc9f0; margin-bottom: 20px;">Creative Portfolio</h3>
+        <div class="card-item" style="cursor: default; text-align: left; line-height: 1.8;">
+            <p><strong>• Vocal Performance:</strong> Dedicated vocalist with a focus on blending traditional and contemporary genres. View digital performances via the verified YouTube channel below.</p>
+            <p><strong>• Community Outreach:</strong> Utilized music as a tool for emotional resilience and engagement during the Sindhupalchowk Rural Immersion Camp, conducting interactive workshops for children.</p>
+        </div>
+        <a href="https://youtube.com/@smjp._s?si=VaJBhQHF_vMRwP22" target="_blank" class="btn-link" style="margin-top: 20px;">Access Performance Archive</a>
+    </div>
